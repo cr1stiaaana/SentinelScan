@@ -55,12 +55,13 @@
       on:click={() => goto("/test-ur-vulnb")}
       class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
     >
-      Scanner
+      Tester
     </button>
     <button
+
+    on:click={() => goto("/terms-and-co")}
       class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
-    >
-      Terms and Conditions
+    > Terms and Conditions
     </button>
     <button
       on:click={() => goto("/about-us")}

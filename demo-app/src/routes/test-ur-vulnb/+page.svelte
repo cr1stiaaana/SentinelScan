@@ -55,8 +55,10 @@
     id="topMenu"
     class="hidden absolute bg-purple-700 p-4 rounded-lg flex-col gap-2 left-4 top-[64px] z-10 shadow-lg"
   >
-    <button class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black">
-      Terms and Conditions
+    <button 
+    on:click={() => goto("/terms-and-co")}
+    class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black">
+    Terms and Conditions
     </button>
     <button
       on:click={() => goto("/about-us")}
