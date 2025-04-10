@@ -1,47 +1,17 @@
 <script>
   import { goto } from "$app/navigation"; // Import the goto function
+    import Navbar from "../../Components/Navbar.svelte";
 
   let isMenuOpen = false;
 
-  function toggleMenu() {
-    isMenuOpen = !isMenuOpen;
-    const dropdown = document.getElementById("topMenu");
-    if (dropdown) {
-      dropdown.style.display = isMenuOpen ? "flex" : "none";
-    }
-  }
+
 </script>
 
 <!-- Top Navigation Bar -->
-<header class="bg-purple-800 text-white p-4 flex items-center relative">
-  <button class="text-2xl mr-4" on:click={toggleMenu}>☰</button>
-  <div class="text-xl font-bold tracking-widest">SentinelScan</div>
-</header>
 
 <!-- Dropdown Menu -->
-<div
-  id="topMenu"
-  class="hidden absolute bg-purple-900 p-4 rounded-lg flex-col gap-2 left-4 top-[64px] z-10 shadow-lg"
->
-  <button
-    on:click={() => goto("/about-us")}
-    class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
-  >
-    About Us
-  </button>
-  <button
-    on:click={() => goto("/test-ur-vulnb")}
-    class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
-  >
-    Test
-  </button>
-  <button
-    on:click={() => goto("/main-page")}
-    class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
-  >
-    Main Page
-  </button>
-</div>
+
+<Navbar/>
 
 <div class = "margin-left: 200px;">
     <!-- Main Content -->

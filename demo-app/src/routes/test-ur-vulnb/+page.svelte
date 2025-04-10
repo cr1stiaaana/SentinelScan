@@ -1,5 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
+    import Navbar from "../../Components/Navbar.svelte";
   
     let selectedParameter = "";
     let parameters = ["SQL Injection", "XSS", "CSRF", "Directory Traversal"];
@@ -35,44 +36,13 @@
       }
     }
   
-    function toggleMenu() {
-      isMenuOpen = !isMenuOpen;
-      const dropdown = document.getElementById("topMenu");
-      if (dropdown) {
-        dropdown.style.display = isMenuOpen ? "flex" : "none";
-      }
-    }
   </script>
   
-  <!-- Top Navigation Bar -->
-  <header class="bg-purple-800 text-white p-4 flex items-center relative">
-    <button class="text-2xl mr-4" on:click={toggleMenu}>☰</button>
-    <div class="text-xl font-bold tracking-widest">SentinelScan</div>
-  </header>
+  <Navbar/>
+  
   
   <!-- Dropdown Menu -->
-  <div
-    id="topMenu"
-    class="hidden absolute bg-purple-700 p-4 rounded-lg flex-col gap-2 left-4 top-[64px] z-10 shadow-lg"
-  >
-    <button 
-    on:click={() => goto("/terms-and-co")}
-    class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black">
-    Terms and Conditions
-    </button>
-    <button
-      on:click={() => goto("/about-us")}
-      class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
-    >
-      About Us
-    </button>
-    <button
-      on:click={() => goto("/main-page")}
-      class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
-    >
-      Main Page
-    </button>
-  </div>
+  
   
   <!-- Main Content -->
   <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-700 to-gray-900 text-white font-sans px-4">
@@ -116,4 +86,12 @@
         Testing {selectedParameter} vulnerabilities on {targetIp}...
       </p>
     {/if}
+
+    <footer class="text-center text-sm text-gray-300 pb-4">
+      <br>s
+      Before you check your vulnerabilities, please read our <a href="/terms-and-co" class="text-purple-300 hover:underline">Terms and Conditions</a>.
+    </footer>
+
   </div>
+
+  
