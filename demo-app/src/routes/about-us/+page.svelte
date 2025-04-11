@@ -20,10 +20,10 @@
     <p
       class="text-lg max-w-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     >
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem,
-      veritatis quod? Nesciunt expedita maiores ut corporis reiciendis sed vero
-      nemo praesentium eligendi excepturi non assumenda unde blanditiis, aperiam
-      aspernatur? Consectetur.
+      We are a small team of passionate people who are trying their best to takle an important problem 
+      in the world of cybersecurity. We are trying to implement an easy-to-use, all-in-one tool that tests
+      whether or not your machine is vulnerable to a set of known threats, using a collection of open-source software,
+      so that the whole process is transparent. This tool is still in alpha, so please bear with us.
     </p>
   </div>
 
@@ -35,9 +35,10 @@
     <p
       class="text-lg max-w-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     >
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-      voluptatibus! Quod, cumque? Quisquam, voluptatibus! Quod, cumque? Quisquam,
-      voluptatibus! Quod, cumque?
+      This tool is specialized in testing for vulnerabilities related to the network layer.
+      We are trying to implement a set of tests that will cover the most common vulnerabilities in this layer,
+      including: open ports, misconfigured services, outdated software, and potential security risks. 
+
     </p>
   </div>
 
@@ -49,9 +50,10 @@
     <p
       class="text-lg max-w-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     >
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-      voluptatibus! Quod, cumque? Quisquam, voluptatibus! Quod, cumque? Quisquam,
-      voluptatibus! Quod, cumque?
+      Using Nmap, duhh! We are using Nmap to scan the target machine for open ports and services,
+      and then we are using a set of scripts to test those services for known vulnerabilities.
+      We are also using it to test for misconfigured services and outdated software.
+      Later implementation of other open-source programs will be added to this tool, as we develop it further.
     </p>
   </div>
 </div>
