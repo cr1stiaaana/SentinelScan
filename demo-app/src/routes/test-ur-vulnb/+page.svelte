@@ -88,7 +88,7 @@
     {/if}
 
     <footer class="text-center text-sm text-gray-300 pb-4">
-      <br>s
+      <br>
       Before you check your vulnerabilities, please read our <a href="/terms-and-co" class="text-purple-300 hover:underline">Terms and Conditions</a>.
     </footer>
 

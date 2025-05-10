@@ -70,6 +70,12 @@
     >
       About Us
     </button>
+    <button
+    on:click={() => goto("/auth-page")}
+    class="border-2 border-purple-300 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-purple-300 hover:text-black"
+  >
+    Login
+  </button>
   </div>
 
  </div>
