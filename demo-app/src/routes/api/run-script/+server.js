@@ -1,5 +1,9 @@
 export async function GET({ url }) {
   const scriptName = url.searchParams.get("scriptName");
+
+  // Server-side sessions don't have access to sessionStorage (that's client-side)
+  // So this check won't work — see note below.
+
   switch (scriptName) {
     case "script1":
       console.log("Executing script1...");

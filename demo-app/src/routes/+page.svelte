@@ -1,9 +1,8 @@
 <script>
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-    import Navbar from "../Components/Navbar.svelte";
 
-    let isScriptRunning = false;
+  let isScriptRunning = false;
 
   async function runScript(scriptName) {
     isScriptRunning = true;
@@ -35,7 +34,6 @@
   -->
 
   
-<Navbar/>
 
 <div class ="min-h-screen flex flex-col bg-gradient-to-br from-purple-500 to-gray-900 text-white font-sans">
 

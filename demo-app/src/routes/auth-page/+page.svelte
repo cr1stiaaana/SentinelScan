@@ -1,5 +1,4 @@
 <script>
-  import Navbar from "../../Components/Navbar.svelte";
   import { goto } from '$app/navigation';
 
   let username = '';
@@ -7,31 +6,42 @@
   let errorMessage = '';
 
   // List of valid users (username and password pairs)
-  const users = [
-    { username: 'admin', password: 'admin' },
-    { username: 'user1', password: 'pass1' },
-    { username: 'user2', password: 'pass2' }
-  ];
+  // const users = [
+  //   { username: 'admin', password: 'admin' },
+  //   { username: 'user1', password: 'pass1' },
+  //   { username: 'user2', password: 'pass2' }
+  // ];
 
-  function login() {
-    // Check if the entered credentials match any user in the list
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
+  async function login() {
+  errorMessage = ''; // Reset error
 
-    if (user) {
-      // Simulate storing session data (replace with actual session logic)
-      sessionStorage.setItem('user', JSON.stringify(user));
-      goto('/test-ur-vulnb'); // Redirect to the protected page
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+    console.log("🛠 Login response:", res.status, data);
+
+    if (res.ok && data.success) {
+      console.log("✅ Login successful. Redirecting...");
+      window.location.href = '/test-ur-vulnb';
+
     } else {
-      errorMessage = 'Invalid username or password.';
+      errorMessage = data.message || 'Login failed.';
     }
+  } catch (err) {
+    errorMessage = 'Server error. Please try again later.';
+    console.error(err);
   }
+}
+
+
+
 </script>
 
-
-
-<Navbar/>
 
 <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-700 to-gray-900 text-white font-sans px-4">
   <h1 class="text-4xl font-bold mb-6">Login</h1>

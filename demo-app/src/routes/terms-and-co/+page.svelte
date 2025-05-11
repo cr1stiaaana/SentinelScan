@@ -1,6 +1,5 @@
 <script>
   import { goto } from "$app/navigation"; // Import the goto function
-    import Navbar from "../../Components/Navbar.svelte";
 
   let isMenuOpen = false;
 
@@ -10,8 +9,6 @@
 <!-- Top Navigation Bar -->
 
 <!-- Dropdown Menu -->
-
-<Navbar/>
 
 <div class = "margin-left: 200px;">
     <!-- Main Content -->
