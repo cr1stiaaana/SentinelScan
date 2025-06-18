@@ -5,41 +5,59 @@
   let password = '';
   let errorMessage = '';
 
-  // List of valid users (username and password pairs)
-  // const users = [
-  //   { username: 'admin', password: 'admin' },
-  //   { username: 'user1', password: 'pass1' },
-  //   { username: 'user2', password: 'pass2' }
-  // ];
-
   async function login() {
-  errorMessage = ''; // Reset error
+    errorMessage = ''; // Reset error
 
-  try {
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
 
-    const data = await res.json();
-    console.log("🛠 Login response:", res.status, data);
+      const data = await res.json();
+      console.log("🛠 Login response:", res.status, data);
 
-    if (res.ok && data.success) {
-      console.log("✅ Login successful. Redirecting...");
-      window.location.href = '/test-ur-vulnb';
+      if (res.ok && data.success) {
+        console.log("✅ Login successful. Redirecting...");
+        window.location.href = '/test-ur-vulnb';
 
-    } else {
-      errorMessage = data.message || 'Login failed.';
+      } else {
+        errorMessage = data.message || 'Login failed.';
+      }
+    } catch (err) {
+      errorMessage = 'Server error. Please try again later.';
+      console.error(err);
     }
-  } catch (err) {
-    errorMessage = 'Server error. Please try again later.';
-    console.error(err);
   }
-}
 
+  async function handleLogin() {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
 
+      const data = await response.json();
 
+      if (data.success) {
+        // Properly store the user session
+        sessionStorage.setItem('user', JSON.stringify({
+          username: data.user.username,
+          isAdmin: data.user.username === 'admin'
+        }));
+        goto('/user-page');
+      } else {
+        error = data.error || 'Login failed';
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      error = 'Login failed. Please try again.';
+    }
+  }
 </script>
 
 

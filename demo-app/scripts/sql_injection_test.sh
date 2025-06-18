@@ -8,5 +8,5 @@ if [ -z "$ip" ]; then
 fi
 
 echo "Running SQL Injection test on $ip..."
-sleep 1  # simulate test time
+sleep 3  # simulate test time
 echo "Test complete — simulated result: no vulnerabilities found on $ip"

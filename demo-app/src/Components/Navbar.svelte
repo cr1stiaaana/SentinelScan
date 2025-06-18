@@ -3,13 +3,7 @@
   import { onMount } from "svelte";
 
   let isMenuOpen = false;
-  export let loggedIn = false; // Passed from layout
-  export let user = '';        // Username from cookie
-
-  onMount(() => {
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    if (dropdownMenu) dropdownMenu.style.display = "none";
-  });
+  export let loggedIn = false; // Prop to track login state
 
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
@@ -19,11 +13,11 @@
     }
   }
 
-  async function logout() {
-  await fetch('/api/logout', { method: 'POST' });
-  location.href = '/auth-page'; // ⬅️ hard reload forces new layout data
-}
-
+  function logout() {
+    sessionStorage.removeItem("user"); // Clear session storage
+    loggedIn = false; // Update loggedIn state
+    goto("/auth-page"); // Redirect to login page
+  }
 </script>
 
 <div>
@@ -38,32 +32,27 @@
     </button>
     <div class="text-xl font-bold tracking-widest">SentinelScan</div>
 
-    <!-- Login Status -->
+    <!-- Navbar Links -->
     <div class="ml-auto flex items-center space-x-4">
+      <button
+        on:click={() => goto("/")}
+        class="text-white hover:underline"
+      >
+        Home
+      </button>
       {#if loggedIn}
-        <div class="flex items-center space-x-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-green-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-          <span class="text-sm font-medium">Logged in as {user}</span>
-          <button
-            on:click={logout}
-            class="ml-4 px-3 py-1 bg-black text-white rounded hover:bg-red-400"
-          >
-            Logout
-          </button>
-        </div>
+        <button
+          on:click={() => goto("/user-page")}
+          class="text-white hover:underline"
+        >
+          My Profile
+        </button>
+        <button
+          on:click={logout}
+          class="text-red-400 hover:underline"
+        >
+          Logout
+        </button>
       {:else}
         <button
           on:click={() => goto("/auth-page")}

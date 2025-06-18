@@ -8,6 +8,8 @@
   let targetIp = "";
   let username = "guest";
   let testOutput = "";
+  let progress = 0; // Progress bar value
+  let progressInterval;
 
   onMount(() => {
     try {
@@ -41,6 +43,14 @@
 
     isTesting = true;
     testOutput = "";
+    progress = 0;
+
+    // Start progress bar simulation
+    progressInterval = setInterval(() => {
+      if (progress < 90) {
+        progress += 10; // Increment progress
+      }
+    }, 500);
 
     const vuln_type = selectedParameter;
     const script_name = selectedParameter.toLowerCase().replace(/\s/g, '_') + "_test";
@@ -65,6 +75,8 @@
     }
 
     isTesting = false;
+    progress = 100; // Complete progress bar
+    clearInterval(progressInterval); // Stop progress simulation
   }
 </script>
 
@@ -103,6 +115,19 @@
   >
     {isTesting ? "Testing..." : "Start Test"}
   </button>
+
+  <!-- Progress Bar and Message -->
+  {#if isTesting}
+    <div class="mt-6 w-full max-w-2xl">
+      <p class="text-yellow-400 mb-2">Please wait, the script is running in the background. This might take a while...</p>
+      <div class="w-full bg-gray-300 rounded-full h-4">
+        <div
+          class="bg-purple-600 h-4 rounded-full"
+          style="width: {progress}%"
+        ></div>
+      </div>
+    </div>
+  {/if}
 
   {#if testOutput}
     <div class="mt-6 bg-gray-800 text-green-400 p-4 rounded w-full max-w-2xl whitespace-pre-wrap">

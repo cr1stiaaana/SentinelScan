@@ -4,48 +4,34 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
+const pool = await mysql.createPool({
+  host: 'localhost',
+  user: 'userSite',
+  password: 'SentinelScan1',
+  database: 'SentinelScan'
+
+});
+
 export async function POST({ request }) {
   const { username, ip_address, vuln_type, script_name } = await request.json();
 
-  const db = await mysql.createConnection({
-    host: 'localhost',
-    user: 'userSite',
-    password: 'SentinelScan1',
-    database: 'SentinelScan'
-  });
+  if (!username || !ip_address || !vuln_type || !script_name) {
+    return new Response(JSON.stringify({ success: false, message: 'Missing required fields' }), { status: 400 });
+  }
 
   try {
-    // ✅ Sanitize allowed script names (important)
-    const allowedScripts = ['sql_injection_test', 'xss_test'];
-    if (!allowedScripts.includes(script_name)) {
-      return new Response(JSON.stringify({ success: false, message: 'Script not allowed' }), {
-        status: 403
-      });
-    }
+    const { stdout } = await execAsync(`bash scripts/${script_name}.sh ${ip_address}`);
+    const suggestions = 'Please review output for mitigation steps.';
 
-    // ✅ Construct and execute bash command
-    const command = `./scripts/${script_name}.sh ${ip_address}`;
-    const { stdout, stderr } = await execAsync(command);
-    const output = stderr || stdout || 'No output returned from script.';
-
-    // ✅ Insert test result into database
-    await db.execute(
-      `INSERT INTO testingLogs (username, ip_address, vuln_type, script_name, output)
-       VALUES (?, ?, ?, ?, ?)`,
-      [username, ip_address, vuln_type, script_name, output]
+    // ✅ Correct placeholder syntax for MySQL: use `?`
+    await pool.query(
+      'INSERT INTO scans (username, ip, scan_type, result, suggestions, timestamp) VALUES (?, ?, ?, ?, ?, NOW())',
+      [username, ip_address, vuln_type, stdout, suggestions]
     );
 
-    return new Response(JSON.stringify({ success: true, output }), {
-      headers: { 'Content-Type': 'application/json' }
-    });
-
+    return new Response(JSON.stringify({ success: true, output: stdout }), { status: 200 });
   } catch (err) {
-    console.error('Error executing script or inserting log:', err);
-    return new Response(JSON.stringify({ success: false, message: err.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } finally {
-    await db.end();
+    console.error('Script or DB Error:', err);
+    return new Response(JSON.stringify({ success: false, message: err.message || 'Internal error' }), { status: 500 });
   }
 }
