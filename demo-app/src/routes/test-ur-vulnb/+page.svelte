@@ -3,7 +3,15 @@
   import { goto } from "$app/navigation";
 
   let selectedParameter = "";
-  let parameters = ["SQL Injection", "XSS", "CSRF", "Directory Traversal"];
+  let parameters = [
+    "SQL Injection",
+    "XSS",
+    "CSRF",
+    "Directory Traversal", 
+    "Full Scan",
+    "SSL Check",
+    "Output Vulnerabilities"
+  ];
   let isTesting = false;
   let targetIp = "";
   let username = "guest";
@@ -39,11 +47,21 @@
       return;
     }
 
+    const scriptNameMap = {
+      'SQL Injection': 'script_sql_injection',
+      'XSS': 'script_xss',
+      'CSRF': 'script_CSRF',
+      'Directory Traversal': 'script_dir_trav',
+      'Full Scan': 'script_full_scan',
+      'SSL Check': 'script_ssl',
+      'Output Vulnerabilities': 'output_vuln'
+    };
+
     isTesting = true;
     testOutput = "";
 
     const vuln_type = selectedParameter;
-    const script_name = selectedParameter.toLowerCase().replace(/\s/g, '_') + "_test";
+    const script_name = scriptNameMap[selectedParameter];
 
     const res = await fetch('/api/log-test', {
       method: 'POST',

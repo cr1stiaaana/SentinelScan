@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import path from 'path';
 
 const execAsync = promisify(exec);
 
@@ -15,16 +16,39 @@ export async function POST({ request }) {
   });
 
   try {
-    // ✅ Sanitize allowed script names (important)
-    const allowedScripts = ['sql_injection_test', 'xss_test'];
+    // ✅ Updated list of allowed scripts
+    const allowedScripts = [
+      'sql_injection_test',
+      'script_xss',
+      'script_CSRF',
+      'script_dir_trav',
+      'script_full_scan',
+      'script_sql_injection',
+      'script_ssl',
+      'output_vuln'
+    ];
+
+    console.log('Requested script:', script_name);
+    console.log('Allowed scripts:', allowedScripts);
+
     if (!allowedScripts.includes(script_name)) {
-      return new Response(JSON.stringify({ success: false, message: 'Script not allowed' }), {
-        status: 403
+      return new Response(JSON.stringify({ 
+        success: false, 
+        message: 'Script not allowed' 
+      }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    // ✅ Construct and execute bash command
-    const command = `./scripts/${script_name}.sh ${ip_address}`;
+    // ✅ Construct absolute path to scripts directory
+    const scriptsDir = path.resolve(process.cwd(), 'scripts');
+    const scriptPath = path.join(scriptsDir, `${script_name}.sh`);
+
+    // ✅ Execute script with proper path and arguments
+    const command = `bash ${scriptPath} ${ip_address}`;
+    console.log(`Executing: ${command}`);
+    
     const { stdout, stderr } = await execAsync(command);
     const output = stderr || stdout || 'No output returned from script.';
 
@@ -41,7 +65,10 @@ export async function POST({ request }) {
 
   } catch (err) {
     console.error('Error executing script or inserting log:', err);
-    return new Response(JSON.stringify({ success: false, message: err.message }), {
+    return new Response(JSON.stringify({ 
+      success: false, 
+      message: err.message 
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
