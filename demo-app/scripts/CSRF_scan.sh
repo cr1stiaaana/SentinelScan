@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Script custom pentru testare CSRF
+# Acest script trebuie folosit doar pe retelele locale sau cele autorizate!
 # Autor: ebogdansan - on github
 
 # 1. Detectează IP-ul propriu și subnetul
@@ -21,7 +22,7 @@ LIVE_HOSTS=$(nmap -sn "$SUBNET" | awk '/Nmap scan report for/ {print $NF}' | gre
 echo " Găsite $(echo "$LIVE_HOSTS" | wc -l) hosturi active:"
 echo "$LIVE_HOSTS"
 
-# 4. Scanare vulnerabilități pe IP-urile detectate
+# 3. Scanare vulnerabilități pe IP-urile detectate
 COUNTER=1
 for IP in $LIVE_HOSTS; do
     	echo " ($COUNTER) Scanez $IP pentru vulnerabilități de tip CSRF (Cross Site Request Forgery)..."
