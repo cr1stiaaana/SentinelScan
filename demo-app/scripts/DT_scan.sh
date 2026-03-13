@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Script custom pentru testare Directory Traversal
+# Acest script trebuie folosit doar pe retelele locale sau cele autorizate!
 # Autor: ebogdansan - on github
 
 # 1. Detectează IP-ul propriu și subnetul
